@@ -7,18 +7,14 @@ import '../services/notification_service.dart';
 
 import 'notifications_page.dart';
 import 'profile_page.dart';
-import 'employees_page.dart';
-import 'shifts_page.dart';
+import 'employee_page.dart';
+import 'shift_page.dart';
 import 'attendance_page.dart';
 import 'payroll_page.dart';
 import 'menu_cafe_page.dart';
 import 'finance_page.dart';
 import 'transaksi_page.dart';
 import 'reports_page.dart';
-import 'mini_game_page.dart';
-import 'ai_assistant_page.dart';
-import 'ai_strategy_page.dart';
-import 'time_converter_page.dart';
 
 class HomePage extends StatefulWidget {
   final AppUser user;
@@ -408,12 +404,7 @@ class _HomePageState extends State<HomePage> {
           return;
         }
 
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => AiAssistantPage(user: user),
-          ),
-        );
+        _showFeatureUnavailable(context, 'Asisten AI');
       },
     );
 
@@ -428,14 +419,7 @@ class _HomePageState extends State<HomePage> {
           return;
         }
 
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => AiStrategyPage(
-              token: user.token,
-            ),
-          ),
-        );
+        _showFeatureUnavailable(context, 'Strategi Bisnis AI');
       },
     );
 
@@ -557,33 +541,17 @@ class _HomePageState extends State<HomePage> {
       },
     );
 
-    final miniGame = _DashboardMenu(
+    const miniGame = _DashboardMenu(
       title: 'Coffee Academy',
       icon: Icons.sports_esports_outlined,
       description: 'Belajar meracik kopi dan raih skor',
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => const MiniGamePage(),
-          ),
-        );
-      },
     );
 
     // Konversi waktu tersedia untuk semua role.
-    final timeConverterMenu = _DashboardMenu(
+    const timeConverterMenu = _DashboardMenu(
       title: 'Konversi Waktu',
       icon: Icons.access_time,
       description: 'Konversi WIB, WITA, dan WIT',
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-            builder: (_) => const TimeConverterPage(),
-          ),
-        );
-      },
     );
 
     // Pembagian menu berdasarkan role tetap dipertahankan.
@@ -650,6 +618,16 @@ class _HomePageState extends State<HomePage> {
       const SnackBar(
         content: Text(
           'Fitur ini hanya dapat digunakan oleh Manager dan Akuntan.',
+        ),
+      ),
+    );
+  }
+
+  void _showFeatureUnavailable(BuildContext context, String title) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          'Menu $title akan dibuat pada tahap berikutnya.',
         ),
       ),
     );
